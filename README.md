@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Sales Insights Data Analysis Project
 
-## Getting Started
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Data Analysis Using SQL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Show all customer records
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    `SELECT * FROM customers;`
 
-## Learn More
+2. Show total number of customers
 
-To learn more about Next.js, take a look at the following resources:
+    `SELECT count(*) FROM customers;`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Show transactions for Chennai market (market code for chennai is Mark001
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    `SELECT * FROM transactions where market_code='Mark001';`
 
-## Deploy on Vercel
+4. Show distrinct product codes that were sold in chennai
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    `SELECT distinct product_code FROM transactions where market_code='Mark001';`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Show transactions where currency is US dollars
+
+    `SELECT * from transactions where currency="USD"`
+
+6. Show transactions in 2020 join by date table
+
+    `SELECT transactions.*, date.* FROM transactions INNER JOIN date ON transactions.order_date=date.date where date.year=2020;`
+
+7. Show total revenue in year 2020,
+
+    `SELECT SUM(transactions.sales_amount) FROM transactions INNER JOIN date ON transactions.order_date=date.date where date.year=2020 and transactions.currency="INR\r" or transactions.currency="USD\r";`
+	
+8. Show total revenue in year 2020, January Month,
+
+    `SELECT SUM(transactions.sales_amount) FROM transactions INNER JOIN date ON transactions.order_date=date.date where date.year=2020 and and date.month_name="January" and (transactions.currency="INR\r" or transactions.currency="USD\r");`
+
+9. Show total revenue in year 2020 in Chennai
+
+    `SELECT SUM(transactions.sales_amount) FROM transactions INNER JOIN date ON transactions.order_date=date.date where date.year=2020
+and transactions.market_code="Mark001";`
+
+10.-- To INNER JOIN  transactions and date 
+
+SELECT sales.transactions.* , sales.date.*
+FROM sales.transactions INNER JOIN sales.date 
+ON sales.transactions.order_date = sales.date.date;
+
+11.-- To INNER JOIN based on year
+
+SELECT sales.transactions.* , sales.date.*
+FROM sales.transactions INNER JOIN sales.date 
+ON sales.transactions.order_date = sales.date.date
+WHERE sales.date.year = 2020;
+
+
+12-- To get the total revenue in a year and in  a state based on market code
+
+SELECT SUM(sales.transactions.sales_amount) 
+FROM sales.transactions INNER JOIN sales.date 
+ON sales.transactions.order_date = sales.date.date
+WHERE sales.date.year = 2020 and sales.transactions.market_code = "Mark001";
+
+13.-- list of  disctinct products that you sold in chennai/market_code = Mark001
+
+SELECT distinct product_code FROM sales.transactions WHERE market_code = "Mark001";
+
+14-- to find the revenue wrt year
+
+SELECT SUM(sales.transactions.sales_amount) 
+FROM sales.transactions INNER JOIN sales.date 
+ON sales.transactions.order_date = sales.date.date
+WHERE sales.date.year = 2020 and transactions.currency = "INR\r" or transactions.currency = "USD\r";
+
+
+
+
+
+
