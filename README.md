@@ -90,32 +90,109 @@ erDiagram
 
 ---
 
-## 🔍 Data Discovery & SQL Queries
+## 🔍 Data Analysis Using SQL
 
-Exploratory queries executed in **MySQL Workbench** to audit raw data:
+Comprehensive list of exploratory and analytical SQL queries executed on the database:
 
+### 1. Show all customer records
 ```sql
--- 1. Inspect total customer base
-SELECT COUNT(*) AS total_customers FROM customers;
+SELECT * FROM customers;
+```
 
--- 2. Retrieve transactions for specific market (Chennai / Mark001)
+### 2. Show total number of customers
+```sql
+SELECT count(*) FROM customers;
+```
+
+### 3. Show transactions for Chennai market (market code: Mark001)
+```sql
 SELECT * FROM transactions WHERE market_code = 'Mark001';
+```
 
--- 3. Identify transactions in USD currency
-SELECT * FROM transactions WHERE currency = 'USD' OR currency = 'USD\r';
+### 4. Show distinct product codes sold in Chennai
+```sql
+SELECT DISTINCT product_code FROM transactions WHERE market_code = 'Mark001';
+```
 
--- 4. Calculate total revenue for 2020 (filtered for valid currency entries)
-SELECT SUM(t.sales_amount) AS total_revenue_2020
-FROM transactions t
-INNER JOIN date d ON t.order_date = d.date
-WHERE d.year = 2020 
-  AND (t.currency = 'INR\r' OR t.currency = 'USD\r');
+### 5. Show transactions where currency is US Dollars
+```sql
+SELECT * FROM transactions WHERE currency = 'USD';
+```
 
--- 5. Revenue by market zone in 2020 (Chennai / Mark001)
-SELECT SUM(t.sales_amount) AS chennai_revenue_2020
-FROM transactions t
-INNER JOIN date d ON t.order_date = d.date
-WHERE d.year = 2020 AND t.market_code = 'Mark001';
+### 6. Show transactions in 2020 joined by date table
+```sql
+SELECT transactions.*, date.* 
+FROM transactions 
+INNER JOIN date ON transactions.order_date = date.date 
+WHERE date.year = 2020;
+```
+
+### 7. Show total revenue in year 2020
+```sql
+SELECT SUM(transactions.sales_amount) 
+FROM transactions 
+INNER JOIN date ON transactions.order_date = date.date 
+WHERE date.year = 2020 
+  AND (transactions.currency = 'INR\r' OR transactions.currency = 'USD\r');
+```
+
+### 8. Show total revenue in year 2020, January month
+```sql
+SELECT SUM(transactions.sales_amount) 
+FROM transactions 
+INNER JOIN date ON transactions.order_date = date.date 
+WHERE date.year = 2020 
+  AND date.month_name = 'January' 
+  AND (transactions.currency = 'INR\r' OR transactions.currency = 'USD\r');
+```
+
+### 9. Show total revenue in year 2020 in Chennai
+```sql
+SELECT SUM(transactions.sales_amount) 
+FROM transactions 
+INNER JOIN date ON transactions.order_date = date.date 
+WHERE date.year = 2020 
+  AND transactions.market_code = 'Mark001';
+```
+
+### 10. Inner join transactions and date tables
+```sql
+SELECT sales.transactions.*, sales.date.* 
+FROM sales.transactions 
+INNER JOIN sales.date ON sales.transactions.order_date = sales.date.date;
+```
+
+### 11. Inner join based on year 2020
+```sql
+SELECT sales.transactions.*, sales.date.* 
+FROM sales.transactions 
+INNER JOIN sales.date ON sales.transactions.order_date = sales.date.date 
+WHERE sales.date.year = 2020;
+```
+
+### 12. Total revenue in a year and market (Chennai / Mark001)
+```sql
+SELECT SUM(sales.transactions.sales_amount) 
+FROM sales.transactions 
+INNER JOIN sales.date ON sales.transactions.order_date = sales.date.date 
+WHERE sales.date.year = 2020 
+  AND sales.transactions.market_code = 'Mark001';
+```
+
+### 13. List of distinct products sold in Chennai (Mark001)
+```sql
+SELECT DISTINCT product_code 
+FROM sales.transactions 
+WHERE market_code = 'Mark001';
+```
+
+### 14. Total revenue with respect to year (multi-currency handling)
+```sql
+SELECT SUM(sales.transactions.sales_amount) 
+FROM sales.transactions 
+INNER JOIN sales.date ON sales.transactions.order_date = sales.date.date 
+WHERE sales.date.year = 2020 
+  AND (sales.transactions.currency = 'INR\r' OR sales.transactions.currency = 'USD\r');
 ```
 
 ---
