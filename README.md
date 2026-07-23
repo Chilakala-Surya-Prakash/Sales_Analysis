@@ -22,36 +22,6 @@ This project delivers a complete **Data Analytics & Business Intelligence pipeli
 
 ---
 
-## 🎯 Business Problem & Requirements (AIMS Grid)
-
-The **AIMS Grid** framework was established to align technical tasks with core business goals:
-
-```
-+---------------------------------------------------------------------------------------+
-|                                    AIMS GRID                                          |
-+---------------------------------------------------------------------------------------+
-| 1. Purpose:                                                                           |
-|    Unlock hidden sales insights, monitor regional revenue trends, and pinpoint        |
-|    underperforming markets to enable data-driven executive decision-making.           |
-|                                                                                       |
-| 2. Stakeholders:                                                                      |
-|    - Sales Director (Bhavin Patel)                                                    |
-|    - Marketing & Regional Sales Managers                                              |
-|    - Data Analytics Team                                                              |
-|                                                                                       |
-| 3. End Result:                                                                        |
-|    An interactive, auto-refreshing Power BI dashboard featuring dynamic filters,       |
-|    KPI cards, regional heatmaps, and customer segmentation.                           |
-|                                                                                       |
-| 4. Success Criteria:                                                                  |
-|    - Replace slow, error-prone manual Excel reporting.                                |
-|    - Enable real-time filtering across regions, customers, and time periods.          |
-|    - Identify top 5 customers and market zones driving 80%+ of overall revenue.       |
-+---------------------------------------------------------------------------------------+
-```
-
----
-
 ## 🏗️ Project Architecture
 
 ```mermaid
